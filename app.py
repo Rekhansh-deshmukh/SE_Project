@@ -95,7 +95,7 @@ def create_session():
             session_id = cursor.lastrowid
 
             # Generate QR Code in memory
-            qr_url = f'{LOCALHOST}:5000/attend/{session_id}'
+            qr_url = f'{LOCALHOST}/attend/{session_id}'
 
             img = qrcode.make(qr_url)
             buffer = io.BytesIO()
@@ -160,7 +160,7 @@ def session_view(session_id):
 @app.route('/auth')
 def auth():
     next_url = request.args.get('next', '/')
-    redirect_uri = url_for('callback', _external=True)
+    redirect_uri = f'{LOCALHOST}/callback'
     return google.authorize_redirect(redirect_uri, state=next_url)
 
 
