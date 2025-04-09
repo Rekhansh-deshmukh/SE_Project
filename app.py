@@ -8,19 +8,20 @@ import sqlite3
 import qrcode
 import os
 from datetime import datetime
-import socket
 import jwt
 import base64
 import io
+from dotenv import load_dotenv
 
-JWT_SECRET = 'super-secret-jwt-key'  # Use a secure, private key
+load_dotenv()
+
+JWT_SECRET = os.getenv('JWT_SECRET', 'your_jwt_secret_key')
 JWT_ALGORITHM = 'HS256'
+LOCALHOST = os.getenv('LOCALHOST', 'localhost')
 
 
 app = Flask(__name__)
-app.config['LOCALHOST'] = os.getenv('LOCALHOST', 'localhost')
-app.config['SECRET_KEY'] = 'secret!'
-app.config['QR_FOLDER'] = 'static/qr_codes'
+app.config['SECRET_KEY'] = os.getenv('SECRET','your_secret_key')
 app.config['GOOGLE_CLIENT_ID'] = '13667574086-7rqtc0alheampic4fkjrid6b55hd9791.apps.googleusercontent.com'
 app.config['GOOGLE_CLIENT_SECRET'] = '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'
 app.config['GOOGLE_DISCOVERY_URL'] = "https://accounts.google.com/.well-known/openid-configuration"
@@ -39,18 +40,6 @@ google = oauth.register(
 )
 
 os.makedirs(app.config['QR_FOLDER'], exist_ok=True)
-
-# Get LAN IP
-def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    try:
-        s.connect(('10.255.255.255', 1))
-        IP = s.getsockname()[0]
-    except Exception:
-        IP = '127.0.0.1'
-    finally:
-        s.close()
-    return IP
 
 def decode_jwt_from_request():
     token = request.cookies.get('access_token')
@@ -107,7 +96,7 @@ def create_session():
             session_id = cursor.lastrowid
 
             # Generate QR Code in memory
-            qr_url = f'http://{local_ip}:5000/attend/{session_id}'
+            qr_url = f'http://{LOCALHOST}:5000/attend/{session_id}'
 
             img = qrcode.make(qr_url)
             buffer = io.BytesIO()
