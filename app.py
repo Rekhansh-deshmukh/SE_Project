@@ -39,7 +39,6 @@ google = oauth.register(
     }
 )
 
-os.makedirs(app.config['QR_FOLDER'], exist_ok=True)
 
 def decode_jwt_from_request():
     token = request.cookies.get('access_token')
