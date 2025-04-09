@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code - Session {{ session_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <style>
+        .qr-instructions {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .qr-code {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code for Session {{ session_id }}</h1>
+    <p class="qr-instructions">Students can scan this to mark attendance</p>
+    <div class="qr-code">
+        <img src="{{ qr_data_uri }}" alt="QR Code">
+    </div>
+</body>
+</html>

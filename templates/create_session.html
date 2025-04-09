@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Session</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <style>
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .submit-btn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Create a New Class Session</h1>
+    <div class="form-container">
+        <form method="post">
+            <input type="text" name="session_name" placeholder="Session Name" required>
+            <button type="submit" class="submit-btn">Session</button>
+        </form>
+    </div>
+</body>
+</html>

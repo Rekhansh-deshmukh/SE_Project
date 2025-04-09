@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class Sessions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    <style>
+        .create-btn {
+            display: inline-block;
+            background-color: #2ecc71;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        .create-btn:hover {
+            background-color: #27ae60;
+        }
+        .session-date {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Class Sessions</h1>
+    <a href="{{ url_for('create_session') }}" class="create-btn">➕ Create New Session</a>
+    <ul>
+        {% for id, name, date in sessions %}
+        <li>
+            <a href="{{ url_for('session_view', session_id=id) }}">{{ name }}</a>
+            <span class="session-date">- {{ date }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

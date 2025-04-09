@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance for {{ session_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .live {
+            color: green;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Attendance for <em>{{ session_name }}</em></h1>
+    <p class="live">Live updates enabled ✅</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Reg No</th>
+                <th>Time</th>
+                <th>IP Address</th>
+            </tr>
+        </thead>
+        <tbody id="attendance-list">
+            {% for name, reg, time, ip in attendees %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ reg }}</td>
+                <td>{{ time }}</td>
+                <td>{{ ip }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script>
+        const sessionId = { session_id,tojson };
+        const socket = io();
+
+        socket.on('new_attendance', data => {
+            if (data.session_id === sessionId) {
+                const list = document.getElementById('attendance-list');
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data.student_name}</td>
+                    <td>${data.reg_no}</td>
+                    <td>${data.timestamp}</td>
+                    <td>${data.ip_address}</td>
+                `;
+                list.appendChild(row);
+            }
+        });
+    </script>
+</body>
+</html>
