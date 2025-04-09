@@ -95,7 +95,7 @@ def create_session():
             session_id = cursor.lastrowid
 
             # Generate QR Code in memory
-            qr_url = f'http://{LOCALHOST}:5000/attend/{session_id}'
+            qr_url = f'{LOCALHOST}:5000/attend/{session_id}'
 
             img = qrcode.make(qr_url)
             buffer = io.BytesIO()
